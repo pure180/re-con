@@ -47,21 +47,25 @@ export interface State {
   [StateKeys.Item]: BaseState<StateObject, EnumActions>;
 }
 
-// Create the application Context which we will use later to create the provider or gaining access to the whole State-Context object of your application.
+// Create the application Context which we will use later to create the
+// provider or gaining access to the whole State-Context object of your
+// application.
 export const AppContext = createAppStateContext<
   State,
   State[keyof State]['state'],
   EnumActions
 >();
 
-// Create the application state provider that gives the react element children the ability to access the application state.
+// Create the application state provider that gives the react element
+// children the ability to access the application state.
 export const AppStateProvider = createAppStateProvider<
   State,
   State[keyof State]['state'],
   EnumActions
 >(AppContext);
 
-// Create the selector hook which is able to access one state object including the dispatch function.
+// Create the selector hook which is able to access one state object
+// including the dispatch function.
 export const useSelector = (key: keyof State) =>
   createSelectorHook(AppContext)(key);
 
