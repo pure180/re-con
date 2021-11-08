@@ -1,5 +1,7 @@
 {
-  "name": "application-state-management",
+  "name": "re-con",
+  "description": "Basic React-Context application state management",
+  "keywords": ["react", "context", "state", "management", "application"],
   "version": "1.0.0",
   "main": "build/index.js",
   "types": "build/index.d.js",
@@ -10,10 +12,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Platonist-Debate-Platform/platonist-library.git"
+    "url": "git+https://github.com/pure180/re-con.git"
   },
   "bugs": {
-    "url": "https://github.com/Platonist-Debate-Platform/platonist-library/issues"
+    "url": "https://github.com/pure180/re-con/issues"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
