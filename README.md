@@ -6,11 +6,11 @@ This package provides a basic functionality to manage your react application sta
 
 ## Installation
 
-> npm i re-con
+> npm i @pure180/re-con
 
 or
 
-> yarn add re-con
+> yarn add @pure180/re-con
 
 ## Usage
 
@@ -25,7 +25,7 @@ import {
   createAppStateContext,
   createAppStateProvider,
   createSelectorHook,
-} from 're-con';
+} from '@pure180/re-con';
 
 // Enum values which describes all available state properties
 export enum StateKeys {

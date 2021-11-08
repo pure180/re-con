@@ -1,7 +1,13 @@
 {
-  "name": "re-con",
+  "name": "@pure180/re-con",
   "description": "Basic React-Context application state management",
-  "keywords": ["react", "context", "state", "management", "application"],
+  "keywords": [
+    "react",
+    "context",
+    "state",
+    "management",
+    "application"
+  ],
   "version": "1.0.0",
   "main": "build/index.js",
   "types": "build/index.d.js",
