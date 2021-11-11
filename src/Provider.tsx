@@ -16,6 +16,12 @@ export const createAppStateProvider = <State extends Object, Item, ActionType>(
   const Provider: React.FunctionComponent<
     PropsWithChildren<{ state: AppState<State, Item, ActionType> }>
   > = ({ children, state }) => {
+    if (!state) {
+      throw new Error(
+        "Can't find any default state please provide a default state.",
+      );
+    }
+
     const [value, setValue] =
       useState<AppState<State, Item, ActionType>>(state);
 
@@ -23,10 +29,18 @@ export const createAppStateProvider = <State extends Object, Item, ActionType>(
       key: keyof State,
       action: ActionReturn<ActionType, Item>,
     ) => {
+      if (!value[key]) {
+        throw new Error(
+          `Cant't find any provided state with the property key "${key}".`,
+        );
+      }
+
       const reducer = value[key].reducer;
 
       if (!reducer) {
-        throw new Error('No Reducer');
+        throw new Error(
+          `Can't find any reducer matching the property key "${key}".`,
+        );
       }
 
       setValue((prevState) => {
