@@ -32,8 +32,10 @@ export const useSelectorBase = <State extends Object, Item, ActionType>(
 };
 
 /**
- * Creates the selector hook to access a property of the global state given
- * by a key
+ * Creates the selector hook to access a property of the global state given by a key e.G.:
+ * ```typescript
+ * const useSelector = createSelectorHook(YourAppStateContext);
+ * ```
  * @param {Context<AppContextValue<State, Item, ActionType>>} Context -
  *          The state Context object
  * @returns [AppState, (action: ActionReturn<ActionType, Item>) => void] -

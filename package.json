@@ -53,6 +53,9 @@
   },
   "scripts": {
     "build": "tsc",
+    "build:docs": "npm run build:jsdoc && npm run build:doctoc",
+    "build:doctoc": "doctoc README.MD",
+    "build:jsdoc": "jsdoc2md build/**/* --configure jsdoc2md.json --template README.hbs > README.md",
     "jest": "jest --forceExit --detectOpenHandles --env=jsdom",
     "lint:fix": "npm run lint --fix",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
@@ -74,5 +77,8 @@
     "semi": true,
     "arrowParents": "avoid"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "doctoc": "^2.1.0",
+    "jsdoc-to-markdown": "^7.1.0"
+  }
 }

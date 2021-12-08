@@ -1,0 +1,11 @@
+{
+  "source": {
+    "includePattern": ".+\\.(js|jsx)?$",
+    "excludePattern": ".+\\.(test|spec|d).ts"
+  },
+  "plugins": ["plugins/markdown"],
+  "babel": {
+    "extensions": ["js"],
+    "ignore": ["**/*.(test|spec|map).js"]
+  }
+}

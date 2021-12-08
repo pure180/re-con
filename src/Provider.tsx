@@ -3,19 +3,59 @@ import React, {
   useState,
   Context as ContextType,
 } from 'react';
+import { Middleware, Timing } from '.';
 import { ActionReturn, AppContextValue, AppState } from './Types';
 
+export interface AppStateProviderProps<State, Item, ActionType> {
+  log?: boolean;
+  middleware?: Middleware<State, Item, ActionType>[];
+  state: AppState<State, Item, ActionType>;
+}
+
 /**
- *
- * @param Context
- * @returns
+ * Resolving the middleware to mutate the application state before or after
+ * the reducer takes places.
+ * @param {Timing} timing
+ * @param {AppState} state
+ * @param {ActionReturn} action
+ * @param {Middleware[]} middleware
+ * @returns {AppState}
+ */
+const resolveMiddleware = <State, Item, ActionType>(
+  timing: Timing,
+  state: AppState<State, Item, ActionType>,
+  action: ActionReturn<ActionType, Item>,
+  middleware: Middleware<State, Item, ActionType>[] = [],
+): AppState<State, Item, ActionType> => {
+  let newState = state;
+  if (middleware && middleware.length) {
+    middleware.forEach((middlewareFn) => {
+      const [currentTiming, fn] = middlewareFn(state, action);
+      if (timing === currentTiming && fn) {
+        newState = fn();
+      }
+    });
+  }
+
+  return newState;
+};
+
+/**
+ * Function to create the React App State Context Provider
+ * @param {React.Context} Context
+ * @returns {React.FunctionComponent}
  */
 export const createAppStateProvider = <State extends Object, Item, ActionType>(
   Context: ContextType<AppContextValue<State, Item, ActionType>>,
 ) => {
+  /**
+   * @typedef {React.FunctionComponent} AppStateProvider - 
+   * @param {PropsWithChildren<AppStateProviderProps>} props
+   * @returns {React.FunctionComponent}
+   */
   const Provider: React.FunctionComponent<
-    PropsWithChildren<{ state: AppState<State, Item, ActionType> }>
-  > = ({ children, state }) => {
+    PropsWithChildren<AppStateProviderProps<State, Item, ActionType>>
+  > = ({ children, middleware, state }) => {
     if (!state) {
       throw new Error(
         "Can't find any default state please provide a default state.",
@@ -44,15 +84,31 @@ export const createAppStateProvider = <State extends Object, Item, ActionType>(
       }
 
       setValue((prevState) => {
+        prevState = resolveMiddleware(
+          Timing.Before,
+          prevState,
+          action,
+          middleware,
+        );
+
         const state = reducer(prevState[key].state, action);
 
-        return {
+        prevState = {
           ...prevState,
           [key]: {
             ...prevState[key],
             state,
           },
         };
+
+        prevState = resolveMiddleware(
+          Timing.After,
+          prevState,
+          action,
+          middleware,
+        );
+
+        return { ...prevState };
       });
     };
 
