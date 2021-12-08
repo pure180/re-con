@@ -69,4 +69,6 @@ export * from './Types';
  * @typedef Timing
  * @readonly
  * @enum {before|after}
+ * @property {after} Timing.After
+ * @property {before} Timing.Before
  */
