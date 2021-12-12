@@ -1,7 +1,7 @@
 import { createSelectorHook } from '../../Hooks';
 import { createAppStateProvider } from '../../Provider';
 import { createAppStateContext } from '../../Context';
-import { AppState, BaseState } from '../..';
+import { AppState, BaseState, Middleware, Timing } from '../..';
 
 export enum TestStateKeys {
   Test = 'test',
@@ -54,3 +54,25 @@ export const fixtureState: AppState<
     },
   },
 };
+
+export const MIDDLEWARE_MUTATION = 'middleware_mutation';
+
+export const testMiddlewareAfterMutation: Middleware<
+  TestState,
+  TestState[keyof TestState]['state'],
+  TestEnumActions
+> = (state, action) => [
+  Timing.After,
+  () => {
+    if (action.type === TestEnumActions.Change) {
+      state[TestStateKeys.Test].state.test = MIDDLEWARE_MUTATION;
+    }
+    return state;
+  },
+];
+
+export const testMiddleware: Middleware<
+  TestState,
+  TestState[keyof TestState]['state'],
+  TestEnumActions
+>[] = [testMiddlewareAfterMutation];

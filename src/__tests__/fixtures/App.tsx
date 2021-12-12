@@ -5,16 +5,18 @@ import {
   useSelector,
   TestStateKeys,
   TestEnumActions,
+  testMiddleware,
 } from './State';
+
+export const STATE_MUTATION = 'new_test_value';
 
 export const TestChild: React.FunctionComponent = () => {
   const [testState, dispatchTestState] = useSelector(TestStateKeys.Test);
 
   const handleClick = useCallback(() => {
-    const test = 'new_test_value';
     dispatchTestState({
       type: TestEnumActions.Change,
-      payload: { ...testState, test },
+      payload: { ...testState, test: STATE_MUTATION },
     });
   }, [dispatchTestState, testState]);
 
@@ -26,8 +28,13 @@ export const TestChild: React.FunctionComponent = () => {
   );
 };
 
-export const TestApp: React.FunctionComponent = () => (
-  <AppStateProvider state={fixtureState}>
+export const TestApp: React.FunctionComponent<{ withMiddleware?: boolean }> = ({
+  withMiddleware,
+}) => (
+  <AppStateProvider
+    state={fixtureState}
+    middleware={withMiddleware ? testMiddleware : undefined}
+  >
     <TestChild />
   </AppStateProvider>
 );

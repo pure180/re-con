@@ -21,7 +21,7 @@ export interface AppStateProviderProps<State, Item, ActionType> {
  * @param {Middleware[]} middleware
  * @returns {AppState}
  */
-const resolveMiddleware = <State, Item, ActionType>(
+export const resolveMiddleware = <State, Item, ActionType>(
   timing: Timing,
   state: AppState<State, Item, ActionType>,
   action: ActionReturn<ActionType, Item>,
@@ -42,14 +42,14 @@ const resolveMiddleware = <State, Item, ActionType>(
 
 /**
  * Function to create the React App State Context Provider
- * @param {React.Context} Context
+ * @param {React.Context} Context Application state context
  * @returns {React.FunctionComponent}
  */
 export const createAppStateProvider = <State extends Object, Item, ActionType>(
   Context: ContextType<AppContextValue<State, Item, ActionType>>,
 ) => {
   /**
-   * @typedef {React.FunctionComponent} AppStateProvider - 
+   * @typedef {React.FunctionComponent} AppStateProvider -
    * @param {PropsWithChildren<AppStateProviderProps>} props
    * @returns {React.FunctionComponent}
    */

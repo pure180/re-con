@@ -1,6 +1,6 @@
+export { createAppStateProvider, AppStateProviderProps } from './Provider';
 export * from './Context';
 export * from './Hooks';
-export * from './Provider';
 export * from './Types';
 
 /**
@@ -41,7 +41,7 @@ export * from './Types';
 
 /**
  * @typedef {Object} AppContextValue the default context properties
- * @property {function} dispatch - 
+ * @property {function} dispatch -
  * @property {Array.<Middleware>|undefined} middleware
  * @property {AppState} state
  */

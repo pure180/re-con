@@ -12,6 +12,8 @@ export const createAppStateContext = <
   ActionType,
 >(): Context<AppContextValue<State, Item, ActionType>> =>
   createContext<AppContextValue<State, Item, ActionType>>({
-    dispatch: (key, action) => {},
+    dispatch: (key, action) => {
+      // Empty function
+    },
     state: {} as AppState<State, Item, ActionType>,
   });

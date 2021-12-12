@@ -6,10 +6,17 @@ import { act } from 'react-dom/test-utils';
 import { createAppStateContext } from '../Context';
 import { createAppStateProvider } from '../Provider';
 import { AppContextValue, AppState } from '../Types';
-import TestApp from './fixtures/App';
-import { fixtureState, TestStateKeys } from './fixtures/State';
+import TestApp, { STATE_MUTATION } from './fixtures/App';
+import {
+  fixtureState,
+  MIDDLEWARE_MUTATION,
+  TestStateKeys,
+} from './fixtures/State';
 
-const Fixture: React.FunctionComponent = () => <TestApp />;
+const Fixture: React.FunctionComponent<{ testMiddleware: boolean }> = ({
+  testMiddleware,
+}) => <TestApp withMiddleware={testMiddleware} />;
+
 describe('Test Context-API', () => {
   describe('Basic component rendering', () => {
     let container: HTMLDivElement | null;
@@ -20,7 +27,7 @@ describe('Test Context-API', () => {
       document.body.appendChild(container);
 
       act(() => {
-        render(<Fixture />, container);
+        render(<Fixture testMiddleware={false} />, container);
       });
 
       paragraph = container?.querySelector('p');
@@ -51,10 +58,50 @@ describe('Test Context-API', () => {
 
       paragraph = container?.querySelector('p');
 
-      expect(paragraph?.textContent).toBe('new_test_value');
+      expect(paragraph?.textContent).toBe(STATE_MUTATION);
       expect(paragraph?.textContent).not.toBe(
         fixtureState[TestStateKeys.Test].state.test,
       );
+    });
+  });
+
+  describe('Middleware mutation', () => {
+    let container: HTMLDivElement | null;
+    let paragraph: HTMLParagraphElement | null | undefined;
+
+    beforeEach(() => {
+      container = document.createElement('div');
+      document.body.appendChild(container);
+
+      act(() => {
+        render(<Fixture testMiddleware={true} />, container);
+      });
+
+      paragraph = container?.querySelector('p');
+    });
+
+    afterEach(() => {
+      if (container) {
+        unmountComponentAtNode(container);
+        container.remove();
+      }
+      container = null;
+    });
+
+    it('should render the state value mutated by the middleware', () => {
+      const button = container?.querySelector('button');
+      paragraph = container?.querySelector('p');
+
+      expect(paragraph?.textContent).toBe(
+        fixtureState[TestStateKeys.Test].state.test,
+      );
+
+      act(() => {
+        button?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      });
+
+      expect(paragraph?.textContent).toBe(MIDDLEWARE_MUTATION);
+      expect(paragraph?.textContent).not.toBe(STATE_MUTATION);
     });
   });
 
