@@ -55,6 +55,7 @@ import {
   createAppStateContext,
   createAppStateProvider,
   createSelectorHook,
+  Middleware,
 } from '@pure180/re-con';
 
 // Enum values which describes all available state properties
@@ -122,6 +123,20 @@ export const defaultState: AppState<
     },
   },
 };
+
+// Create a middleware that should run after the state mutation
+const middlewareAfterMutation: Middleware<State, State[keyof State]['state'], EnumActions> =
+  (state, action) => [Timing.After, () => {
+    if (action.type === EnumActions.Change) {
+      state[StateKeys.Item].state.item = 'change value after mutation'
+    }
+    return state;
+  }
+];
+
+export const middleware: Middleware<State, State[keyof State]['state'], EnumActions>[] = [
+  middlewareAfterMutation,
+];
 ```
 
 Apply the State Context Provider to your application.
@@ -135,6 +150,7 @@ import {
   AppStateProvider,
   defaultState,
   EnumActions,
+  middleware,
   StateKeys,
   useSelector,
 } from './State';
@@ -160,7 +176,7 @@ const ComponentWithSelectorHook: React.FunctionComponent = () => {
 };
 
 export const AppWithStateContextProvider: React.FunctionComponent = () => (
-  <AppStateProvider state={defaultState}>
+  <AppStateProvider state={defaultState} middleware={middleware}>
     <ComponentWithSelectorHook />
   </AppStateProvider>
 );
@@ -222,6 +238,13 @@ the reducer takes places.</p></dd>
 
 **Kind**: global enum  
 **Read only**: true  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| Timing.After | <code>after</code> | 
+| Timing.Before | <code>before</code> | 
+
 <a name="createAppStateContext"></a>
 
 ## createAppStateContext() ⇒ <code>Context.&lt;AppContextValue.&lt;State, Item, ActionType&gt;&gt;</code>
@@ -279,9 +302,9 @@ the reducer takes places.</p>
 
 **Kind**: global function  
 
-| Param | Type |
-| --- | --- |
-| Context | <code>React.Context</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| Context | <code>React.Context</code> | <p>Application state context</p> |
 
 <a name="Action"></a>
 
