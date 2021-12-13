@@ -81,6 +81,7 @@ module.exports = {
         '@typescript-eslint/ban-types': 'off',
         '@typescript-eslint/no-inferrable-types': 'off',
         '@typescript-eslint/no-empty-interface': 'off',
+        'import/no-extraneous-dependencies': 'off',
       },
     },
   ],

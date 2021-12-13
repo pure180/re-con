@@ -1,6 +1,5 @@
 import { useContext, Context, useState, useEffect } from 'react';
-import { AppState } from './Types';
-import { ActionReturn, AppContextValue } from '.';
+import { AppState, ActionReturn, AppContextValue } from './Types';
 
 /**
  * Basic Selector hook to access the state context

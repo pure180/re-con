@@ -3,8 +3,8 @@ import React, {
   useState,
   Context as ContextType,
 } from 'react';
-import { Middleware, Timing } from '.';
-import { ActionReturn, AppContextValue, AppState } from './Types';
+
+import { Middleware, Timing, ActionReturn, AppContextValue, AppState } from './Types';
 
 export interface AppStateProviderProps<State, Item, ActionType> {
   log?: boolean;

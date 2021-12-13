@@ -1,6 +1,5 @@
 import { createContext, Context } from 'react';
-import { AppState } from '.';
-import { AppContextValue } from './Types';
+import { AppState, AppContextValue } from './Types';
 
 /**
  * Creates the basic Application State Context;
