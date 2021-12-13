@@ -1,8 +1,10 @@
 # React Context Application State Management
 
-**This package is WIP**
-
 This package provides a basic functionality to manage your react application state with the Facebook house made context API.
+
+Working example: https://codesandbox.io/s/pure180-re-con-example-se718
+
+I would appreciate any comment or suggestion, please let me know what you think.
 
 # Table of Contents
 
