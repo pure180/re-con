@@ -61,7 +61,7 @@ export const testMiddlewareAfterMutation: Middleware<
   TestState,
   TestState[keyof TestState]['state'],
   TestEnumActions
-> = (state, action) => [
+> = (state, action, dispatch) => [
   Timing.After,
   () => {
     if (action.type === TestEnumActions.Change) {

@@ -10,6 +10,8 @@ import {
 } from './fixtures/State';
 
 describe('resolveMiddleware', () => {
+  // TODO Test dispatch function in middleware
+
   const state = resolveMiddleware<
     TestState,
     TestState[keyof TestState]['state'],
@@ -20,6 +22,9 @@ describe('resolveMiddleware', () => {
     {
       type: TestEnumActions.Change,
       payload: { test: 'abc' },
+    },
+    (key, action) => {
+      //
     },
     testMiddleware,
   );
