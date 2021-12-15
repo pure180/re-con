@@ -30,6 +30,7 @@ export interface BaseState<State, ActionType> {
 export type Middleware<State extends Object, Item, ActionType> = (
   state: AppState<State, Item, ActionType>,
   action: ActionReturn<ActionType, Item>,
+  dispatch: (key: keyof State, action: ActionReturn<ActionType, Item>) => void,
 ) => [Timing, () => AppState<State, Item, ActionType>];
 
 export type Reducer<State, ActionType> = (

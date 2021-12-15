@@ -52,9 +52,16 @@ export * from './Types';
  */
 
 /**
+ * @typedef {function} Dispatch
+ * @param {Action} action
+ * @param {Object|Array|String} payload
+ */
+
+/**
  * @typedef {function} Middleware
  * @param {AppState} state the current state object
  * @param {ActionReturn} action the current action
+ * @param {Dispatch} dispatch a callback function to mutate the state
  * @returns {Array<Timing, MiddlewareReturnFunction>}
  */
 

@@ -31,12 +31,13 @@ export const resolveMiddleware = <State, Item, ActionType>(
   timing: Timing,
   state: AppState<State, Item, ActionType>,
   action: ActionReturn<ActionType, Item>,
+  dispatch: (key: keyof State, action: ActionReturn<ActionType, Item>) => void,
   middleware: Middleware<State, Item, ActionType>[] = [],
 ): AppState<State, Item, ActionType> => {
   let newState = state;
   if (middleware && middleware.length) {
     middleware.forEach((middlewareFn) => {
-      const [currentTiming, fn] = middlewareFn(state, action);
+      const [currentTiming, fn] = middlewareFn(state, action, dispatch);
       if (timing === currentTiming && fn) {
         newState = fn();
       }
@@ -94,6 +95,7 @@ export const createAppStateProvider = <State extends Object, Item, ActionType>(
           Timing.Before,
           prevState,
           action,
+          dispatch,
           middleware,
         );
 
@@ -111,6 +113,7 @@ export const createAppStateProvider = <State extends Object, Item, ActionType>(
           Timing.After,
           prevState,
           action,
+          dispatch,
           middleware,
         );
 
